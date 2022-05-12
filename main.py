@@ -52,7 +52,7 @@ while True:
     num_rooms = teacher_num_rooms(data)
     print(list(num_rooms.values()))
 
-    for _ in range(10000):
+    for _ in range(20000):
         rand_row1 = random.randint(0, data_length - 1)
         rand_row2 = random.randint(0, data_length - 1)
         rand_col = random.randint(0, data_width - 1)
@@ -75,4 +75,5 @@ while True:
         break
     
 new_data_frame = pd.DataFrame(data, index=periods, columns=classrooms)
+new_data_frame.replace(0, np.nan, inplace=True)
 new_data_frame.to_excel('new_data.xlsx')
