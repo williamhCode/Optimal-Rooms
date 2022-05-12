@@ -33,7 +33,7 @@ def calc_fitness_values(num_rooms):
     for value in num_rooms.values():
         error += (value - 1)**2
     error /= len(num_rooms)
-    
+
     return num_one_classroom_teachers, error
 
 
@@ -54,9 +54,10 @@ while True:
 
     for _ in range(20000):
         rand_row1 = random.randint(0, data_length - 1)
-        rand_row2 = random.randint(0, data_length - 1)
+        rand_row2 = random.choice(
+            list(set([x for x in range(0, data_length - 1)]) - set([rand_row1])))
         rand_col = random.randint(0, data_width - 1)
-        
+
         num_rooms = teacher_num_rooms(data)
         noct, error = calc_fitness_values(num_rooms)
         fitness = noct * 1 - error * 6
@@ -69,11 +70,11 @@ while True:
 
         if new_fitness < fitness:
             data[rand_row1][rand_col], data[rand_row2][rand_col] = data[rand_row2][rand_col], data[rand_row1][rand_col]
-        
+
     x = input()
     if x == 'q':
         break
-    
+
 new_data_frame = pd.DataFrame(data, index=periods, columns=classrooms)
 new_data_frame.replace(0, np.nan, inplace=True)
 new_data_frame.to_excel('new_data.xlsx')
